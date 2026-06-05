@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile_user.username }} | WriteSphere{% endblock %}
+{% block content %}
+<section class="card">
+    <h1>{{ profile_user.username }}</h1>
+    <p>Role: {{ profile_user.get_role_display }}</p>
+    {% if user != profile_user %}
+        <a href="{% url 'toggle_follow' profile_user.id %}" class="btn">{% if is_following %}Unfollow{% else %}Follow{% endif %}</a>
+    {% endif %}
+</section>
+
+<section>
+    <h2>Posts</h2>
+    <div class="grid">
+        {% for post in posts %}
+            <article class="card">
+                <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+                <p>{{ post.content|truncatechars:100 }}</p>
+            </article>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

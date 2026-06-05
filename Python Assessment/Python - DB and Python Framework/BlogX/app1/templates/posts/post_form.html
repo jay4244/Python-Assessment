@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <article class="card">
+        <h2>{{ title }}</h2>
+        <p class="meta">Add a title, content, image, category, and tags.</p>
+        <p class="meta">Need a new category? <a href="{% url 'add_category' %}">Add category</a></p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Save Post</button>
+        </form>
+    </article>
+    <aside class="visual-panel">
+        <div>
+            <h2>Create compelling content</h2>
+            <p>Use clear titles and visuals to make your posts stand out.</p>
+        </div>
+    </aside>
+</section>
+{% endblock %}

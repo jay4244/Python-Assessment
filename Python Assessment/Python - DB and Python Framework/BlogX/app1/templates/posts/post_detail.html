@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} | WriteSphere{% endblock %}
+{% block content %}
+<article class="card">
+    <h1>{{ post.title }}</h1>
+    <p class="meta">By {{ post.author.username }} · {{ post.created_at|date:"M d, Y H:i" }}</p>
+    <p class="meta">Category: {{ post.category|default:"Uncategorized" }}</p>
+    {% if post.cover_image %}
+        <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="post-image">
+    {% endif %}
+    <p>{{ post.content }}</p>
+    <p class="meta">Total Likes: {{ total_likes }}</p>
+
+    <div class="actions">
+        <form method="post" action="{% url 'toggle_like' post.pk %}">
+            {% csrf_token %}
+            <button class="btn" type="submit">{% if has_liked %}Unlike{% else %}Like{% endif %}</button>
+        </form>
+        {% if user == post.author or user.role == 'ADMIN' %}
+            <a class="btn btn-outline" href="{% url 'edit_post' post.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete_post' post.pk %}">Delete</a>
+        {% endif %}
+    </div>
+</article>
+
+<section class="card">
+    <h2>Comments</h2>
+    <form method="post" action="{% url 'add_comment' post.pk %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button class="btn" type="submit">Add Comment</button>
+    </form>
+</section>
+
+<section class="card">
+    <h3>Recent Comments</h3>
+    {% for comment in comments %}
+        <div class="comment-item">
+            <p><strong>{{ comment.user.username }}</strong> · {{ comment.created_at|date:"Y-m-d H:i" }}</p>
+            <p>{{ comment.content }}</p>
+            {% if user == comment.user %}
+                <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first to comment.</p>
+    {% endfor %}
+</section>
+{% endblock %}

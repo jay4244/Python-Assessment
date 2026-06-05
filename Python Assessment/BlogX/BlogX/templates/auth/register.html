@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Register | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <div class="panel form-panel">
+        <h1>Create account</h1>
+        <p>Join WriteSphere as Reader, Author, or Admin.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+    <div class="panel image-panel">
+        <div class="placeholder">
+            <h2>Start your blogging journey</h2>
+        </div>
+    </div>
+</section>
+{% endblock %}

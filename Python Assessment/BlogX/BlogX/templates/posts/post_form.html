@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <div class="panel form-panel">
+        <h1>{{ title }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Save</button>
+        </form>
+    </div>
+    <div class="panel image-panel">
+        <div class="placeholder">
+            <h2>Design your story with image and tags</h2>
+        </div>
+    </div>
+</section>
+{% endblock %}

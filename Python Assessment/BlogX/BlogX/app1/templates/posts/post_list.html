@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}All Posts | WriteSphere{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>Home Feed</h2>
+    <p class="meta">Filter posts by category, author, or published date.</p>
+    <form method="get">
+        <p>
+            <label>Category</label>
+            <select name="category">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label>Author</label>
+            <select name="author">
+                <option value="">All Authors</option>
+                {% for author in authors %}
+                    <option value="{{ author.id }}" {% if selected_author == author.id|stringformat:"s" %}selected{% endif %}>
+                        {{ author.username }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label>Date</label>
+            <input type="date" name="date" value="{{ selected_date }}">
+        </p>
+        <button type="submit" class="btn">Apply Filters</button>
+        <a href="{% url 'post_list' %}" class="btn btn-outline">Reset</a>
+    </form>
+</div>
+
+<div class="grid">
+    {% for post in posts %}
+        <article class="card">
+            {% if post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="post-image">
+            {% endif %}
+            <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+            <p>{{ post.content|truncatechars:130 }}</p>
+            <p class="meta">By {{ post.author.username }} · {{ post.created_at|date:"M d, Y" }}</p>
+            <p class="meta">Category: {{ post.category|default:"Uncategorized" }} · Likes: {{ post.total_likes }}</p>
+            <a class="btn" href="{% url 'post_detail' post.pk %}">Read More</a>
+        </article>
+    {% empty %}
+        <div class="card"><p>No posts found for current filters.</p></div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Posts | WriteSphere{% endblock %}
+{% block content %}
+<h1>Latest Posts</h1>
+<div class="grid">
+    {% for post in posts %}
+        <article class="card">
+            {% if post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="card-image">
+            {% endif %}
+            <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+            <p>{{ post.content|truncatechars:120 }}</p>
+            <p class="meta">By <a href="{% url 'user_profile' post.author.id %}">{{ post.author.username }}</a> | {{ post.created_at|date:"M d, Y" }}</p>
+            <p class="meta">Likes: {{ post.total_likes }} | Comments: {{ post.total_comments }}</p>
+        </article>
+    {% empty %}
+        <p>No posts found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

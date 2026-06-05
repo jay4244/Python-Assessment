@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Login | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <article class="card">
+        <h1>Welcome Back</h1>
+        <p class="meta">Sign in to continue reading and publishing your stories.</p>
+
+        {% if form.non_field_errors %}
+            <div class="message">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {{ form.as_p }}
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p class="meta">No account? <a href="{% url 'register' %}">Create one</a></p>
+    </article>
+    <aside class="visual-panel">
+        <div>
+            <h2>Write, Publish, Inspire</h2>
+            <p>Join a modern community of writers and readers.</p>
+        </div>
+    </aside>
+</section>
+{% endblock %}

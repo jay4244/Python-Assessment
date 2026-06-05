@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Register | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <article class="card">
+        <h1>Create Account</h1>
+        <p class="meta">Get started as a Reader, Author, or Admin.</p>
+
+        {% if form.non_field_errors %}
+            <div class="message">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {{ form.as_p }}
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <p class="meta">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </article>
+    <aside class="visual-panel">
+        <div>
+            <h2>Build Your Presence</h2>
+            <p>Publish blogs with a clean writing and reading experience.</p>
+        </div>
+    </aside>
+</section>
+{% endblock %}

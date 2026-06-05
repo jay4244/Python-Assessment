@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add Category | WriteSphere{% endblock %}
+{% block content %}
+<section class="split-layout">
+    <article class="card">
+        <h2>Add Category</h2>
+        <p class="meta">Create a new category for posts.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="actions">
+                <button type="submit" class="btn">Save Category</button>
+                <a href="{% url 'create_post' %}" class="btn btn-outline">Back to Create Post</a>
+            </div>
+        </form>
+    </article>
+    <aside class="visual-panel">
+        <div>
+            <h2>Organize your content</h2>
+            <p>Categories help readers discover posts faster.</p>
+        </div>
+    </aside>
+</section>
+{% endblock %}
